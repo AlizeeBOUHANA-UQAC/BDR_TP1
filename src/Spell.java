@@ -19,10 +19,10 @@ public class Spell {
     public JSONObject toJSON() {
         JSONObject obj = new JSONObject();
 
-        obj.put("spell_resistance", spell_resistance);
-        obj.put("components", components);
         obj.put("level", level);
         obj.put("name", name);
+        obj.put("components", components);
+        obj.put("spell_resistance", spell_resistance);
 
         return obj;
     }
