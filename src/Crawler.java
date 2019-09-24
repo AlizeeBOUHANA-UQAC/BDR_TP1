@@ -13,9 +13,6 @@ import java.util.HashSet;
 public class Crawler {
 
     public static Spell crawlSpells(String link){
-
-        Spell sReturn;
-
         try {
             Document page = Jsoup.connect(link).get();
             Elements spell = page.select("div.SpellDiv");
@@ -54,7 +51,7 @@ public class Crawler {
 
 
             // Spell
-            sReturn = new Spell(name, level, components, spellResist);
+            return new Spell(name, level, components, spellResist);
 
 
         } catch (IOException e) {
@@ -65,16 +62,21 @@ public class Crawler {
     }
 
     public static void main(String[] args) {
+        ArrayList<Spell> arraySpells = new ArrayList<>();
         // boucle pour tous les spells
         for (int i = 1 ; i<1501 ; i++) {
-            String link = "http://www.dxcontent.com/SDB_SpellBlock.asp?SDBID="+19;
-
+            System.out.println(i);
+            String link = "http://www.dxcontent.com/SDB_SpellBlock.asp?SDBID="+i;
             Spell s = crawlSpells(link);
-            if(s.name){
-
+            if(s.getName() != null){
+                System.out.println("Ajout Spell " + s.getName());
+                arraySpells.add(s);
             }
-
         }
+
+
+
+
 
     }
 
