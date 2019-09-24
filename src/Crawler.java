@@ -24,22 +24,30 @@ public class Crawler {
 
 
             //components
-            String component = spdet.select("p:contains(Components)").toString();
-            component = component.substring(component.indexOf("</b>")+4);
-            Pattern p=Pattern.compile("[A-Z]*(/?[A-Z]*)");
-            Matcher m = p.matcher(component);
-            ArrayList<String> comp = new ArrayList<>();
-            while(m.find()){
-                System.out.println("a :"+m.group()+"\n\n");
-                comp.add(m.group());
+            String comp = spdet.select("p:contains(Components)").toString();
+            System.out.println(comp);
+            comp = comp.substring(comp.indexOf("</b>")+4);
+            Pattern patternComp = Pattern.compile("[A-Z]*(/?[A-Z]+)");
+            Matcher matchComp = patternComp.matcher(comp);
+            ArrayList<String> components = new ArrayList<>();
+            while(matchComp.find()){
+                components.add(matchComp.group());
             }
+            for(int i = 0;i<components.size();i++){
+                System.out.println(components.get(i));
+            }
+
+            //level
+            String lev = spdet.select("p:contains(Level)").toString();
+            //lev = lev.substring(comp.indexOf("</b>")+4);
+            System.out.println(lev);
+
 
             //String level = spell.select("div.heading p").toString().replaceAll("</*p>", "");
             //String lev = spell.select("div.heading p").toString().replaceAll("</*p>", "");
             //String resist = spell.select("div.heading p").toString().replaceAll("</*p>", "");
 
 
-            System.out.println("level :"+component+"\n\n");
 
         } catch (IOException e) {
             System.err.println("For '" + link + "': " + e.getMessage());
