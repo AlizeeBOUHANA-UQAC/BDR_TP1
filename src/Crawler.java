@@ -2,6 +2,7 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import org.json.*;
 
 import java.util.ArrayList;
 import java.util.regex.*;
@@ -11,56 +12,65 @@ import java.util.HashSet;
 
 public class Crawler {
 
-    public static void crawlSpells(String link){
-        try {
+    public static Spell crawlSpells(String link){
 
+        Spell sReturn;
+
+        try {
             Document page = Jsoup.connect(link).get();
             Elements spell = page.select("div.SpellDiv");
-            Elements spdet = spell.select("p.SPDet"); // div contenant les infos component, level
+            Elements spdet = spell.select("p.SPDet"); // div contenant les infos component, level, spellResist
+
+
 
             //name
             String name = spell.select("div.heading p").toString().replaceAll("</*p>", "");
-            System.out.println("name :"+name+"\n\n");
 
 
             //components
-            String comp = spdet.select("p:contains(Components)").toString();
-            System.out.println(comp);
-            comp = comp.substring(comp.indexOf("</b>")+4);
-            Pattern patternComp = Pattern.compile("[A-Z]*(/?[A-Z]+)");
-            Matcher matchComp = patternComp.matcher(comp);
             ArrayList<String> components = new ArrayList<>();
-            while(matchComp.find()){
-                components.add(matchComp.group());
-            }
-            for(int i = 0;i<components.size();i++){
-                System.out.println(components.get(i));
+            String comp = spdet.select("p:matches(Components)").toString();
+            comp = comp.substring(comp.indexOf("<b>Components</b>")+17);
+            Pattern pattern = Pattern.compile("[A-Z]*(/?[A-Z]+)");
+            Matcher matcher = pattern.matcher(comp);
+            while(matcher.find()){
+                components.add(matcher.group());
             }
 
             //level
-            String lev = spdet.select("p:contains(Level)").toString();
-            //lev = lev.substring(comp.indexOf("</b>")+4);
-            System.out.println(lev);
+            int level = 0;
+            String lev = spdet.select("p:matches(Level)").toString();
+            lev = lev.substring(lev.indexOf("<b>Level</b>")+12);
+            pattern = Pattern.compile("[0-9]+");
+            matcher = pattern.matcher(lev);
+            while(matcher.find()){
+                int i = Integer.parseInt(matcher.group());
+                if(i > level){
+                    level = i;
+                }
+            }
 
+            //spellResist
+            boolean spellResist;
+            String resist = spdet.select("p:contains(Spell Resistance see)").toString();
+            spellResist = !resist.equals("");
 
-            //String level = spell.select("div.heading p").toString().replaceAll("</*p>", "");
-            //String lev = spell.select("div.heading p").toString().replaceAll("</*p>", "");
-            //String resist = spell.select("div.heading p").toString().replaceAll("</*p>", "");
-
-
+            // Spell
+            sReturn = new Spell();
 
         } catch (IOException e) {
             System.err.println("For '" + link + "': " + e.getMessage());
+            return sReturn;
         }
+
     }
 
     public static void main(String[] args) {
         // boucle pour tous les spells
-        //for (int i = 1 ; i<1501 ; i++) {
+        for (int i = 1 ; i<1501 ; i++) {
             String link = "http://www.dxcontent.com/SDB_SpellBlock.asp?SDBID="+19;
-            crawlSpells(link);
-            //TODO new spell
-        //}
+            Spell s = crawlSpells(link);
+        }
 
     }
 
