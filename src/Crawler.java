@@ -21,11 +21,8 @@ public class Crawler {
             Elements spell = page.select("div.SpellDiv");
             Elements spdet = spell.select("p.SPDet"); // div contenant les infos component, level, spellResist
 
-
-
             //name
             String name = spell.select("div.heading p").toString().replaceAll("</*p>", "");
-
 
             //components
             ArrayList<String> components = new ArrayList<>();
@@ -55,21 +52,28 @@ public class Crawler {
             String resist = spdet.select("p:contains(Spell Resistance see)").toString();
             spellResist = !resist.equals("");
 
+
             // Spell
-            sReturn = new Spell();
+            sReturn = new Spell(name, level, components, spellResist);
+
 
         } catch (IOException e) {
             System.err.println("For '" + link + "': " + e.getMessage());
-            return sReturn;
         }
 
+        return new Spell(null, 0, new ArrayList<>(), false);
     }
 
     public static void main(String[] args) {
         // boucle pour tous les spells
         for (int i = 1 ; i<1501 ; i++) {
             String link = "http://www.dxcontent.com/SDB_SpellBlock.asp?SDBID="+19;
+
             Spell s = crawlSpells(link);
+            if(s.name){
+
+            }
+
         }
 
     }
