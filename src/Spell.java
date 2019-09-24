@@ -16,7 +16,7 @@ public class Spell {
         spell_resistance = _resistance;
     }
 
-    public String toJSON() {
+    public JSONObject toJSON() {
         JSONObject obj = new JSONObject();
 
         obj.put("spell_resistance", spell_resistance);
@@ -24,7 +24,22 @@ public class Spell {
         obj.put("level", level);
         obj.put("name", name);
 
-        return obj.toString();
+        return obj;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public int getLevel() {
+        return level;
+    }
+
+    public ArrayList<String> getComponents() {
+        return components;
+    }
+
+    public boolean isSpell_resistance() {
+        return spell_resistance;
+    }
 }

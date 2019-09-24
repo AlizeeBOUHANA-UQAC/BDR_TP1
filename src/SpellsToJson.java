@@ -1,3 +1,5 @@
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 
 public class SpellsToJson {
@@ -12,9 +14,15 @@ public class SpellsToJson {
     }
 
     public static void GenerateJson(ArrayList<Spell> spells) {
+        JSONObject obj = new JSONObject();
+
+        Integer i=0;
         for (Spell sp: spells) {
-            System.out.println(sp.toJSON());
+            obj.put(i.toString(), sp.toJSON());
+            i++;
         }
+
+        System.out.print(obj);
     }
 
 
