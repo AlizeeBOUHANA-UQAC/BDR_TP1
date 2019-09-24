@@ -64,20 +64,15 @@ public class Crawler {
     public static void main(String[] args) {
         ArrayList<Spell> arraySpells = new ArrayList<>();
         // boucle pour tous les spells
-        for (int i = 1 ; i<1501 ; i++) {
-            System.out.println(i);
+        for (int i = 1 ; i<150 ; i++) {
             String link = "http://www.dxcontent.com/SDB_SpellBlock.asp?SDBID="+i;
             Spell s = crawlSpells(link);
             if(s.getName() != null){
-                System.out.println("Ajout Spell " + s.getName());
                 arraySpells.add(s);
             }
         }
 
-
-
-
-
+        SpellsToJson.GenerateJson(arraySpells);
     }
 
 
