@@ -46,7 +46,7 @@ public class Crawler {
 
             //spellResist
             boolean spellResist;
-            String resist = spdet.select("p:contains(Spell Resistance see)").toString();
+            String resist = spdet.select("p:contains(Spell Resistance yes)").toString();
             spellResist = !resist.equals("");
 
 
