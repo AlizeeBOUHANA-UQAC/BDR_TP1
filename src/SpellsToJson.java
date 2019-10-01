@@ -12,12 +12,10 @@ public class SpellsToJson {
 
             int i = 1;
             out.write("[");
-            out.newLine();
             for (Spell sp: spells) {
                 out.write(sp.toJSON().toString());
                 if(i<spells.toArray().length)
                     out.write(',');
-                out.newLine();
                 i++;
             }
             out.write("]");
