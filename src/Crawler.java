@@ -64,7 +64,7 @@ public class Crawler {
     public static void main(String[] args) {
         ArrayList<Spell> arraySpells = new ArrayList<>();
         // boucle pour tous les spells
-        for (int i = 1 ; i<150 ; i++) {
+        for (int i = 1 ; i<1501 ; i++) {
             String link = "http://www.dxcontent.com/SDB_SpellBlock.asp?SDBID="+i;
             Spell s = crawlSpells(link);
             if(s.getName() != null){
